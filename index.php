@@ -54,7 +54,9 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
         <h2 class="promo__title">Нужен стафф для катки?</h2>
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
-            <!--заполните этот список из массива категорий-->
+            <?php 
+            	$category = array('Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное' );
+            ?>
             <li class="promo__item promo__item--boards">
                 <a class="promo__link" href="pages/all-lots.html">Имя категории</a>
             </li>
@@ -66,24 +68,39 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
         </div>
         <ul class="lots__list">
             <!--заполните этот список из массива с товарами-->
-            <li class="lots__item lot">
-                <div class="lot__image">
-                    <img src="" width="350" height="260" alt="">
-                </div>
-                <div class="lot__info">
-                    <span class="lot__category">Название категории</span>
-                    <h3 class="lot__title"><a class="text-link" href="pages/lot.html">Название товара</a></h3>
-                    <div class="lot__state">
-                        <div class="lot__rate">
-                            <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost">цена<b class="rub">р</b></span>
-                        </div>
-                        <div class="lot__timer timer">
-                            12:23
-                        </div>
-                    </div>
-                </div>
-            </li>
+            <?php 
+            	$items = array(
+			            		array ('2014 Rossignol District Snowboard', 'Доски и лыжи', '10999', 'img/lot-1.jpg'),
+			            		array ('DC Ply Mens 2016/2017 Snowboard', 'Доски и лыжи', '159999', 'img/lot-2.jpg'),
+			            		array ('Крепления Union Contact Pro 2015 года размер L/XL', 'Крепления', '8000', 'img/lot-3.jpg'),
+			            		array ('Ботинки для сноуборда DC Mutiny Charocal', 'Ботинки', '10999', 'img/lot-4.jpg'),
+			            		array ('Куртка для сноуборда DC Mutiny Charocal', 'Одежда', '7500', 'img/lot-5.jpg'),
+			            		array ('Маска Oakley Canopy', 'Разное', '5400', 'img/lot-6.jpg')
+			            		);?>
+            <?php 
+            
+            	foreach ($items as list($cat_item, $cat_name, $cat_price, $cat_image)) 
+            		{?>
+			            <li class="lots__item lot">
+			                <div class="lot__image">
+			                    <img src="<?=$cat_image?>" width="350" height="260" alt="">
+			                </div>
+			                <div class="lot__info">
+			                    <span class="lot__category"><?=$cat_item?></span>
+			                    <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?=$cat_name?></a></h3>
+			                    <div class="lot__state">
+			                        <div class="lot__rate">
+			                            <span class="lot__amount"><?=$cat_price?></span>
+			                            <span class="lot__cost">цена<b class="rub">р</b></span>
+			                        </div>
+			                        <div class="lot__timer timer">
+			                            12:23
+			                        </div>
+			                    </div>
+			                </div>
+			            </li><?
+		            }
+		            ?>
         </ul>
     </section>
 </main>
@@ -93,6 +110,11 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
+            <?php
+            	foreach ($category as $value) {
+            		print "<li class='nav__item'><a href='pages/all-lots.html'>".$value."</a></li>";
+            	}
+            ?>
             <li class="nav__item">
                 <a href="pages/all-lots.html">Название категории</a>
             </li>
