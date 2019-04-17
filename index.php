@@ -66,7 +66,7 @@ $user_name = 'Alexandr';// укажите здесь ваше имя
             <h2>Открытые лоты</h2>
         </div>
         <ul class="lots__list">
-            <!--заполните этот список из массива с товарами-->
+            <!--заполните этот список из массива с товарами -->
             <?php 
             	$items = array(
 			            		array ('2014 Rossignol District Snowboard', 'Доски и лыжи', '10999', 'img/lot-1.jpg'),
