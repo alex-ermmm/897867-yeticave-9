@@ -2,6 +2,7 @@
 $is_auth = rand(0, 1);
 
 $user_name = 'Alexandr'; // укажите здесь ваше имя
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -44,7 +45,6 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
             </ul>
         <?endif;?>
         <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
-
         </nav>
     </div>
 </header>
@@ -57,6 +57,11 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
             <?php 
             	$category = array('Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное' );
             ?>
+            <?php
+                foreach ($category as $value) {
+                    print "<li class='promo__item promo__item--boards'><a class='promo__link' href='pages/all-lots.html'>".$value."</a></li>";
+                }
+            ?>
             <li class="promo__item promo__item--boards">
                 <a class="promo__link" href="pages/all-lots.html">Имя категории</a>
             </li>
@@ -67,7 +72,8 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
             <h2>Открытые лоты</h2>
         </div>
         <ul class="lots__list">
-            <!--заполните этот список из массива с товарами-->
+      <!--заполните этот список из массива с товарами-->
+
             <?php 
             	$items = array(
 			            		array ('2014 Rossignol District Snowboard', 'Доски и лыжи', '10999', 'img/lot-1.jpg'),
@@ -109,7 +115,8 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <!--заполните этот список из массива категорий-->
+        <!--заполните этот список из массива категорий--> 
+
             <?php
             	foreach ($category as $value) {
             		print "<li class='nav__item'><a href='pages/all-lots.html'>".$value."</a></li>";
