@@ -57,6 +57,11 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
             <?php 
             	$category = array('Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное' );
             ?>
+            <?php
+                foreach ($category as $value) {
+                    print "<li class='promo__item promo__item--boards'><a class='promo__link' href='pages/all-lots.html'>".$value."</a></li>";
+                }
+            ?>
             <li class="promo__item promo__item--boards">
                 <a class="promo__link" href="pages/all-lots.html">Имя категории</a>
             </li>
