@@ -81,9 +81,21 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
 			            		array ('Крепления Union Contact Pro 2015 года размер L/XL', 'Крепления', '8000', 'img/lot-3.jpg'),
 			            		array ('Ботинки для сноуборда DC Mutiny Charocal', 'Ботинки', '10999', 'img/lot-4.jpg'),
 			            		array ('Куртка для сноуборда DC Mutiny Charocal', 'Одежда', '7500', 'img/lot-5.jpg'),
-			            		array ('Маска Oakley Canopy', 'Разное', '5400', 'img/lot-6.jpg')
-			            		);?>
-            <?php 
+			            		array ('Маска Oakley Canopy', 'Разное', '400', 'img/lot-6.jpg')
+			            		);
+           
+            function price ($cat_price)
+            {
+            	ceil($cat_price);
+            	if ($cat_price < 1000)
+            	{
+	            	echo $cat_price." &#x20bd;";
+	            }
+	            elseif ($cat_price >= 1000 ) {
+	            	echo number_format($cat_price, 0, ',', ' ')." &#x20bd;";
+	            }
+
+            }
             
             	foreach ($items as list($cat_item, $cat_name, $cat_price, $cat_image)) 
             		{?>
@@ -96,8 +108,8 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
 			                    <h3 class="lot__title"><a class="text-link" href="pages/lot.html"><?=$cat_name?></a></h3>
 			                    <div class="lot__state">
 			                        <div class="lot__rate">
-			                            <span class="lot__amount"><?=$cat_price?></span>
-			                            <span class="lot__cost">цена<b class="rub">р</b></span>
+			                            <span class="lot__amount">Цена</span>
+			                            <span class="lot__cost"><?price($cat_price);?></span>
 			                        </div>
 			                        <div class="lot__timer timer">
 			                            12:23
@@ -107,6 +119,7 @@ $user_name = 'Alexandr'; // укажите здесь ваше имя
 			            </li><?
 		            }
 		            ?>
+            
         </ul>
     </section>
 </main>
