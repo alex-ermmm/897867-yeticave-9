@@ -55,10 +55,11 @@ $user_name = 'Alexandr';// укажите здесь ваше имя
         <ul class="promo__list">
             <?php 
             	$category = array('Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное' );
+            
+                foreach ($category as $categories) {
+                    print "<li class='promo__item promo__item--boards'><a class='promo__link' href='pages/all-lots.html'>$categories</a></li>";
+                }
             ?>
-            <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html">Имя категории</a>
-            </li>
         </ul>
     </section>
     <section class="lots">
