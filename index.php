@@ -3,8 +3,7 @@ require_once('helpers.php');
 require_once('functions.php');
 require_once('data.php');
 
-$page_content = include_template('index_tpl.php', ['items' => $items, 'category' => $category]);
-$menu_bottom = include_template('menu_bottom_tpl.php', ['category' => $category]);
+$page_content = include_template('index_tpl.php', ['items' => $items, 'category' => $category, 'time_counter' => $time_counter, 'timer_finishing' => $timer_finishing]);
 
 $layout_content = include_template('layout.php', [
     'page_content' => $page_content,

@@ -10,8 +10,8 @@
             <span class="lot__amount">Цена</span>
             <span class="lot__cost"><?price($cat_price);?></span>
         </div>
-        <div class="lot__timer timer">
-            12:23
+        <div class="lot__timer timer <?=$timer_finishing;?>">
+            <?=$time_counter;?>
         </div>
     </div>
 </div>
