@@ -18,7 +18,7 @@
         	<?foreach ($items as list($cat_item, $cat_name, $cat_price, $cat_image)) 
         		{
                    $elements = include_template('element_tpl.php', ['cat_item' => $cat_item, 'cat_name' => $cat_name, 'cat_price' => $cat_price, 'cat_image' => $cat_image]); 
-                    print_r($elements);
+                    print $elements;
 	            }?>            
         </ul>
     </section>
