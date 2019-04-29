@@ -3,28 +3,32 @@ USE alexandr_yermakovich_yeticave;
 CREATE TABLE user (
 user_id INT AUTO_INCREMENT PRIMARY KEY,
 regestration_date DATETIME,
-email CHAR,
-name CHAR,
-password CHAR,
-avatar CHAR,
+email CHAR(255),
+name CHAR(255),
+password CHAR(255),
+avatar CHAR(255),
 contact TEXT,
-CREATE INDEX index_email ON user (email),
-CREATE INDEX index_name ON user (name),
 UNIQUE KEY (email)
 );
+
+CREATE INDEX index_email ON user (email);
+CREATE INDEX index_name ON user (name);
+
 CREATE TABLE category (
 category_id INT AUTO_INCREMENT PRIMARY KEY,
-name CHAR,
-code CHAR,
-UNIQUE KEY (name, code),
-CREATE INDEX index_category ON category (name)
+name CHAR(255),
+code CHAR(255),
+UNIQUE KEY (name),
+UNIQUE KEY (code)
 );
+CREATE INDEX index_category ON category (name);
+
 CREATE TABLE lot (
 lot_id INT AUTO_INCREMENT PRIMARY KEY,
 date_create DATETIME,
-name CHAR,
-description LONGTEXT,
-image CHAR,
+name CHAR(255),
+description LONGTEXT(300),
+image CHAR(255),
 start_price INT,
 date_finish INT,
 step_lot INT,
@@ -33,10 +37,11 @@ win_user_id INT,
 category_id INT,
 FOREIGN KEY (autor_id)  REFERENCES user (user_id),
 FOREIGN KEY (win_user_id)  REFERENCES user (user_id),
-FOREIGN KEY (category_id)  REFERENCES category (category_id),
-CREATE INDEX index_name ON lot (name),
-CREATE INDEX index_description ON lot (description)
+FOREIGN KEY (category_id)  REFERENCES category (category_id)
 );
+CREATE INDEX index_name ON lot (name);
+CREATE INDEX index_description ON lot (description);
+
 CREATE TABLE bet (
 id INT AUTO_INCREMENT PRIMARY KEY,
 bet_date DATETIME,
@@ -44,6 +49,6 @@ price INT,
 user_id INT,
 lot_id INT,
 FOREIGN KEY (user_id)  REFERENCES user (user_id),
-FOREIGN KEY (lot_id)  REFERENCES lot (lot_id),
-CREATE INDEX index_price ON bet (price)
+FOREIGN KEY (lot_id)  REFERENCES lot (lot_id)
 );
+CREATE INDEX index_price ON bet (price);
