@@ -27,7 +27,7 @@ CREATE TABLE lot (
 lot_id INT AUTO_INCREMENT PRIMARY KEY,
 date_create DATETIME,
 name CHAR(255),
-description LONGTEXT(300),
+description TEXT,
 image CHAR(255),
 start_price INT,
 date_finish INT,
@@ -40,7 +40,6 @@ FOREIGN KEY (win_user_id)  REFERENCES user (user_id),
 FOREIGN KEY (category_id)  REFERENCES category (category_id)
 );
 CREATE INDEX index_name ON lot (name);
-CREATE INDEX index_description ON lot (description);
 
 CREATE TABLE bet (
 id INT AUTO_INCREMENT PRIMARY KEY,
