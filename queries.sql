@@ -25,13 +25,13 @@ VALUES 			(NOW(), '11999', '1', '14'),
 SELECT * FROM category;
 
 /*получить самые новые, открытые лоты. Каждый лот должен включать название, стартовую цену, ссылку на изображение, цену, название категории;*/
-SELECT category.name, lot.name, image, start_price, step_lot, autor_id FROM lot JOIN category ON category.category_id = lot.category_id WHERE date_finish < NOW();
+SELECT category.name, lot.name, image, start_price, step_lot, autor_id FROM lot INNER JOIN category ON category.category_id = lot.category_id WHERE date_finish > NOW() ORDER BY lot_id DESC;
 
 /*показать лот по его id. Получите также название категории, к которой принадлежит лот;*/
-SELECT lot_id, category.name FROM lot JOIN category ON category.category_id = lot.category_id;
+SELECT lot_id, category.name FROM lot INNER JOIN category ON category.category_id = lot.category_id;
 
 /*обновить название лота по его идентификатору;*/
 UPDATE lot SET name = '2014 Rossignol District Snowboard. UPDATE' WHERE lot_id = 14;
 
 /*получить список самых свежих ставок для лота по его идентификатору.*/
-SELECT * FROM bet ORDER BY bet_date DESC;
+SELECT * FROM bet WHERE lot_id = 14 ORDER BY bet_date DESC ;
