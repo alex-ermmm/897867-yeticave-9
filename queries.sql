@@ -1,53 +1,37 @@
-CREATE DATABASE alexandr_yermakovich_yeticave CHARACTER SET utf8 COLLATE utf8_general_ci;
-USE alexandr_yermakovich_yeticave;
-CREATE TABLE user (
-user_id INT AUTO_INCREMENT PRIMARY KEY,
-regestration_date DATETIME,
-email CHAR(255),
-name CHAR(255),
-password CHAR(255),
-avatar CHAR(255),
-contact TEXT,
-UNIQUE KEY (email)
-);
+/*добавляем категории*/
+INSERT INTO category (name, code) 
+VALUES ('Доски и лыжи', 'snowboard_ski'), ('Крепления', 'mounts'), ('Одежда', 'clothes'), ('Инструменты', 'tools'), ('Разное','others');
 
-CREATE INDEX index_email ON user (email);
-CREATE INDEX index_name ON user (name);
+/*добавляем пользователей*/
+INSERT INTO user (regestration_date, email, name, password, avatar, contact) 
+VALUES 	(NOW(), 'alex@web.ru', 'Alex', 'qwerty', 'image.jpg', '9210011'), 
+		(NOW(), 'jon@web.ru', 'Jon', '123456qqq', 'face.jpg', '777222666');
 
-CREATE TABLE category (
-category_id INT AUTO_INCREMENT PRIMARY KEY,
-name CHAR(255),
-code CHAR(255),
-UNIQUE KEY (name),
-UNIQUE KEY (code)
-);
-CREATE INDEX index_category ON category (name);
+/*добавляем лоты*/
+INSERT INTO lot (date_create, name, description, image, start_price, date_finish, step_lot, autor_id, win_user_id, category_id) 
+VALUES 	(NOW(), '2014 Rossignol District Snowboard', NULL, 'img/lot-1.jpg', '10999', '20190101', NULL, '1','1', '1'), 
+		(NOW(), 'DC Ply Mens 2016/2017 Snowboard', NULL, 'img/lot-2.jpg', '159999', '20190506', NULL, '1','1', '1'), 
+		(NOW(), 'Крепления Union Contact Pro 2015 года размер L/XL', NULL, 'img/lot-3.jpg', '8000', '20190506', NULL, '1','1', '2'),
+        (NOW(), 'Ботинки для сноуборда DC Mutiny Charocal', NULL, 'img/lot-4.jpg', '10999', '20190606', NULL, '1','1', '3'),
+        (NOW(), 'Куртка для сноуборда DC Mutiny Charocal', NULL, 'img/lot-5.jpg', '7500', '20190516', NULL, '2','1', '3'),
+        (NOW(), 'Маска Oakley Canopy', NULL, 'img/lot-6.jpg', '400', '20190306', NULL, '2','2', '5');
 
-CREATE TABLE lot (
-lot_id INT AUTO_INCREMENT PRIMARY KEY,
-date_create DATETIME,
-name CHAR(255),
-description TEXT,
-image CHAR(255),
-start_price INT,
-date_finish INT,
-step_lot INT,
-autor_id INT,
-win_user_id INT,
-category_id INT,
-FOREIGN KEY (autor_id)  REFERENCES user (user_id),
-FOREIGN KEY (win_user_id)  REFERENCES user (user_id),
-FOREIGN KEY (category_id)  REFERENCES category (category_id)
-);
-CREATE INDEX index_name ON lot (name);
+/*добавляем ставку*/
+INSERT INTO bet (bet_date, price, user_id, lot_id) 
+VALUES 			(NOW(), '11999', '1', '14'), 
+				(NOW(), '17000', '2', '15');
 
-CREATE TABLE bet (
-id INT AUTO_INCREMENT PRIMARY KEY,
-bet_date DATETIME,
-price INT,
-user_id INT,
-lot_id INT,
-FOREIGN KEY (user_id)  REFERENCES user (user_id),
-FOREIGN KEY (lot_id)  REFERENCES lot (lot_id)
-);
-CREATE INDEX index_price ON bet (price);
+/*выбираем все категории*/
+SELECT * FROM category;
+
+/*получить самые новые, открытые лоты. Каждый лот должен включать название, стартовую цену, ссылку на изображение, цену, название категории;*/
+SELECT category.name, lot.name, image, start_price, step_lot, autor_id FROM lot JOIN category ON category.category_id = lot.category_id WHERE date_finish < NOW();
+
+/*показать лот по его id. Получите также название категории, к которой принадлежит лот;*/
+SELECT lot_id, category.name FROM lot JOIN category ON category.category_id = lot.category_id;
+
+/*обновить название лота по его идентификатору;*/
+UPDATE lot SET name = '2014 Rossignol District Snowboard. UPDATE' WHERE lot_id = 14;
+
+/*получить список самых свежих ставок для лота по его идентификатору.*/
+SELECT * FROM bet ORDER BY bet_date DESC;
