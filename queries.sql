@@ -18,20 +18,20 @@ VALUES 	(NOW(), '2014 Rossignol District Snowboard', NULL, 'img/lot-1.jpg', '109
 
 /*добавляем ставку*/
 INSERT INTO bet (bet_date, price, user_id, lot_id) 
-VALUES 			(NOW(), '11999', '1', '14'), 
-				(NOW(), '17000', '2', '15');
+VALUES 			(NOW(), '11999', '1', '1'), 
+				(NOW(), '17000', '2', '2');
 
 /*выбираем все категории*/
 SELECT * FROM category;
 
 /*получить самые новые, открытые лоты. Каждый лот должен включать название, стартовую цену, ссылку на изображение, цену, название категории;*/
-SELECT category.name, lot.name, image, start_price, step_lot, autor_id FROM lot INNER JOIN category ON category.category_id = lot.category_id WHERE date_finish > NOW() ORDER BY lot_id DESC;
+SELECT category.name, lot.name, image, start_price, step_lot, autor_id FROM lot RIGHT JOIN category ON category.category_id = lot.category_id WHERE date_finish > NOW() ORDER BY lot_id DESC;
 
 /*показать лот по его id. Получите также название категории, к которой принадлежит лот;*/
-SELECT lot_id, category.name FROM lot INNER JOIN category ON category.category_id = lot.category_id;
+SELECT lot_id, category.name FROM lot INNER JOIN category ON category.category_id = lot.category_id WHERE lot_id = 14;
 
 /*обновить название лота по его идентификатору;*/
-UPDATE lot SET name = '2014 Rossignol District Snowboard. UPDATE' WHERE lot_id = 14;
+UPDATE lot SET name = '2014 Rossignol District Snowboard. UPDATE' WHERE lot_id = 1;
 
 /*получить список самых свежих ставок для лота по его идентификатору.*/
-SELECT * FROM bet WHERE lot_id = 14 ORDER BY bet_date DESC ;
+SELECT * FROM bet WHERE lot_id = 2 ORDER BY bet_date DESC ;
