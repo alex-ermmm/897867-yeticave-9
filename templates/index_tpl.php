@@ -5,7 +5,7 @@
         <ul class="promo__list">
             <? 
                 foreach ($category as $cat_element) {
-                    print "<li class='promo__item promo__item--boards'><a class='promo__link' href='pages/all-lots.html'>".$cat_element."</a></li>";
+                    print "<li class='promo__item promo__item--".$cat_element['code']."'><a class='promo__link' href='pages/all-lots.html'>".$cat_element['name']."</a></li>";
                 }
             ?>
         </ul>
@@ -15,9 +15,9 @@
             <h2>Открытые лоты</h2>
         </div>
         <ul class="lots__list">
-        	<?foreach ($items as list($cat_item, $cat_name, $cat_price, $cat_image)) 
+        	<?foreach ($lots as $lot) 
         		{
-                   $elements = include_template('element_tpl.php', ['cat_item' => $cat_item, 'cat_name' => $cat_name, 'cat_price' => $cat_price, 'cat_image' => $cat_image, 'time_counter' => $time_counter, 'timer_finishing' => $timer_finishing]); 
+                   $elements = include_template('element_tpl.php', ['lot' => $lot, 'time_counter' => $time_counter]); 
                     print $elements;
 	            }?>            
         </ul>

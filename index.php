@@ -15,7 +15,42 @@ if($one_hours >= $ts_midnight){
 	$timer_finishing = "timer--finishing";
 }
 
-$page_content = include_template('index_tpl.php', ['items' => $items, 'category' => $category, 'time_counter' => $time_counter, 'timer_finishing' => $timer_finishing]);
+$link = mysqli_connect("localhost", "root", "", "alexandr_yermakovich_yeticave");
+mysqli_set_charset($link, "utf8");
+ 
+if ($link == false){
+    print("Ошибка: Невозможно подключиться к MySQL " . mysqli_connect_error());
+}
+else {
+	//получаем лоты
+    $sql_lot = 'SELECT name, image, start_price FROM lot';
+    $sql_cat = 'SELECT * FROM category';
+
+    if (($res_lot = mysqli_query($link, $sql_lot)) and ($res_cat = mysqli_query($link, $sql_cat))) 
+    {
+        $lots = mysqli_fetch_all($res_lot, MYSQLI_ASSOC);
+        $category = mysqli_fetch_all($res_cat, MYSQLI_ASSOC);
+
+        $page_content = include_template('index_tpl.php', ['lots' => $lots, 'category' => $category, 'time_counter' => $time_counter]);
+    }
+    else {
+        print mysqli_error($link);
+    }
+    /*
+    //получаем категории
+    $sql_cat = 'SELECT * FROM category';
+    if ($res_cat = mysqli_query($link, $sql_cat)) {
+        $category = mysqli_fetch_all($res_cat, MYSQLI_ASSOC);
+        $page_content = include_template('index_tpl.php', ['category' => $category]);
+        echo $category['name'];
+    }
+    else {
+        print mysqli_error($link);
+    }*/
+}
+
+
+
 
 $layout_content = include_template('layout.php', [
     'page_content' => $page_content,
