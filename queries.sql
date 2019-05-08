@@ -1,6 +1,6 @@
 /*добавляем категории*/
 INSERT INTO category (name, code) 
-VALUES ('Доски и лыжи', 'snowboard_ski'), ('Крепления', 'mounts'), ('Одежда', 'clothes'), ('Инструменты', 'tools'), ('Разное','others');
+VALUES ('Доски и лыжи', 'boards'), ('Крепления', 'attachment'), ('Ботинки', 'boots'), ('Одежда', 'clothing'), ('Инструменты', 'tools'), ('Разное','others');
 
 /*добавляем пользователей*/
 INSERT INTO user (regestration_date, email, name, password, avatar, contact) 
