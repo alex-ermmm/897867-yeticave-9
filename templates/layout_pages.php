@@ -22,68 +22,50 @@
       </form>
       <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
       <nav class="user-menu">
-        <ul class="user-menu__list">
-          <li class="user-menu__item">
-            <a href="sign-up.html">Регистрация</a>
-          </li>
-          <li class="user-menu__item">
-            <a href="login.html">Вход</a>
-          </li>
-        </ul>
-      </nav>
+        <?if($is_auth == 1): ?>
+            <div class="user-menu__logged">
+                <p><?=$user_name?></p>
+                <a class="user-menu__bets" href="pages/my-bets.html">Мои ставки</a>
+                <a class="user-menu__logout" href="#">Выход</a>
+            </div>
+        <?else:?>
+            <ul class="user-menu__list">
+               <li class="user-menu__item">
+                  <a href="#">Регистрация</a>
+               </li>
+               <li class="user-menu__item">
+                 <a href="#">Вход</a>
+               </li>
+            </ul>
+        <?endif;?>
+        <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
+        </nav>
     </div>
   </header>
 
   <main>
     <nav class="nav">
-      <ul class="nav__list container">
-        <li class="nav__item">
-          <a href="all-lots.html">Доски и лыжи</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Крепления</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Ботинки</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Одежда</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Инструменты</a>
-        </li>
-        <li class="nav__item">
-          <a href="all-lots.html">Разное</a>
-        </li>
-      </ul>
+        <ul class="nav__list container">
+            <?php
+            foreach ($category as $menu_bottom) {
+                print "<li class='nav__item'><a href='pages/all-lots.html'>".$menu_bottom['name']."</a></li>";
+            }
+            ?>
+        </ul>
     </nav>
     <?=$page_content;?>
   </main>
-
 </div>
 
 <footer class="main-footer">
   <nav class="nav">
-    <ul class="nav__list container">
-      <li class="nav__item">
-        <a href="all-lots.html">Доски и лыжи</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Крепления</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Ботинки</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Одежда</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Инструменты</a>
-      </li>
-      <li class="nav__item">
-        <a href="all-lots.html">Разное</a>
-      </li>
-    </ul>
+      <ul class="nav__list container">
+          <?php
+          foreach ($category as $menu_bottom) {
+              print "<li class='nav__item'><a href='pages/all-lots.html'>".$menu_bottom['name']."</a></li>";
+          }
+          ?>
+      </ul>
   </nav>
   <div class="main-footer__bottom container">
     <div class="main-footer__copyright">
