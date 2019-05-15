@@ -17,13 +17,10 @@
         <ul class="lots__list">
         	<?foreach ($lots as $lot) 
         		{
-                   $elements = include_template('element_tpl.php', ['lot' => $lot, 'time_counter' => $time_counter, 'timer_finishing' => $timer_finishing]); 
+                   $elements = include_template('element_tpl.php', ['lot' => $lot, 'timer_finishing' => $timer_finishing]); 
                     print $elements;
 	            }
-
-                
-                //print_r($elements['bets']);
-                ?>     
+            ?>     
 
         </ul>
     </section>
