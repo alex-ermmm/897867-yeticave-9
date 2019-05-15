@@ -24,7 +24,7 @@
                 <span class="lot-item__cost"><?=price($lot['start_price']);?></span>
               </div>
               <div class="lot-item__min-cost">
-                Мин. ставка <span><?=($lot['step_lot']+$lot['start_price'])?></span>
+                Мин. ставка <span><?=($lot['step_lot'] + $lot['start_price'])?></span>
               </div>
             </div>
             <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post" autocomplete="off">
