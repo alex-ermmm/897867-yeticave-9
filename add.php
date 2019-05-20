@@ -24,15 +24,14 @@ else {
             $add_lot = $_POST;
             $add_lot_image = $_FILES;
 
-
-            $required = ['title', 'category', 'description',  'start_price', 'step-lot', 'date-finish'];
-            $dict = ['title' => 'Название', 'category' => 'Категория', 'description' => 'Описание', 'start_price' => 'Начальная цена', 'step-lot' => 'Шаг ставки', 'date-finish' => 'Дата окончания торгов', 'image_type' => 'Изображение', 'no_file' => 'Изображение'];
-            $errors = [];
+            $required = ['title', 'category_id', 'description',  'start_price', 'step_lot', 'date_finish'];
+            $dict = ['title' => 'Название', 'category_id' => 'Категория', 'description' => 'Описание', 'start_price' => 'Начальная цена', 'step_lot' => 'Шаг ставки', 'date_finish' => 'Дата окончания торгов', 'image_type' => 'Изображение', 'no_file' => 'Изображение'];
+            $error = [];
 
             foreach ($required as $key) {
                 if (empty($_POST['lot'][$key])){
                    $error[$key] = ' Это поле надо заполнить';
-                }
+                }                
             }
 
             if (empty($_FILES['image']['name'])) 
@@ -43,17 +42,36 @@ else {
             {
                 $tmp_name = $_FILES['image']['tmp_name'];
                 $path = $_FILES['image']['name'];
-
+                $ext = pathinfo($path, PATHINFO_EXTENSION);
+               // echo $ext;
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $file_type = finfo_file($finfo, $tmp_name);
                 
-                if (($file_type !== "image/png") or ($file_type !== "image/jpg") or ($file_type !== "image/jpeg"))
+                if ($file_type !== "image/png")
                 {
                     $error['image_type'] = 'Загрузите картинку в формате нужном формате: jpg, jpeg, png';
                 }
                 else {
-                    move_uploaded_file($tmp_name, 'uploads/' . $path);
-                    $add_lot['path'] = $path;
+                	$add_lot = $_POST['lot'];
+
+					$filename = uniqid() . '.png';
+
+                	$add_lot['image'] = $filename;
+                    move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $filename);
+                    $img_link = "uploads/".$filename;
+
+                    $sql = 'INSERT INTO lot (date_create, name, description, image, start_price, date_finish, step_lot, autor_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)';
+                    $stmt = db_get_prepare_stmt($link, $sql, [$add_lot['title'], $add_lot['description'], $img_link, $add_lot['start_price'], $add_lot['date_finish'], $add_lot['step_lot'], $add_lot['category_id']]);
+                    $res = mysqli_stmt_execute($stmt);
+
+                    if ($res) {
+			            $lot_id = mysqli_insert_id($link);
+			            header("Location: lot.php?lot_id=" . $lot_id);
+			            print $lot_id;
+			        	}
+				        else {
+				            $content = include_template('error.php', ['error' => mysqli_error($link)]);
+				        }
                 } 
             }
 
@@ -72,20 +90,19 @@ else {
             
             else 
             {
-                $page_content = "все ок. тут будет форма показа загруженного лота";
-                $layout_content = include_template('layout_pages.php', [
-                'page_content' => $page_content,
-                'category' => $category,
-                'title' => 'YetiCave лот.',
-                'is_auth' => $is_auth,
-                'user_name' => $user_name
-                ]);
-                print($layout_content);
-            }
+                $page_content = include_template('lot_tpl.php', ['lots' => $lots, 'bets' => $bets, 'category' => $category]); 
+		        $layout_content = include_template('layout_pages.php', [
+		            'page_content' => $page_content,
+		            'category' => $category,
+		            'title' => $lot['name'],
+		            'is_auth' => $is_auth,
+		            'user_name' => $user_name
+		        ]);
+		        print($layout_content);
+		        }
 
         }
         else {
-            print "REQUEST_METHOD = POST. НЕТ";
             $page_content = include_template('lot_add_tpl.php', ['lots' => $lots, 'category' => $category]); 
             $layout_content = include_template('layout_pages.php', [
             'page_content' => $page_content,

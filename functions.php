@@ -1,4 +1,5 @@
 <?php
+
 function price ($cat_price)
 {
     ceil($cat_price);
@@ -36,7 +37,8 @@ function timer_finishing ($timer_finishing)
 	$secs_to_midnight = $ts_midnight - time();
 	$hours = floor($secs_to_midnight / 3600);
 	$one_hours = 60*60;
-	if (1 >= $hours){
+	if (1 >= $hours)
+	{
 	print("timer--finishing");
-}
+	}
 }

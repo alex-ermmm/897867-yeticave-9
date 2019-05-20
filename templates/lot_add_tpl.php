@@ -8,7 +8,7 @@
         </div>
         <div class="form__item <? if($_POST['lot']['category'] == "Выберите категорию") : print "form__item--invalid"; endif;?>">
           <label for="category">Категория <sup>*</sup></label>
-          <select id="category" name="lot[category]">
+          <select id="category" name="lot[category_id]">
             <option >Выберите категорию</option>
             <?php foreach ($category as $categories) { ?>      
                 <option value="<?=$categories['category_id']?>" 
@@ -26,7 +26,7 @@
       <div class="form__item form__item--file">
         <label>Изображение <sup>*</sup></label>
         <div class="form__input-file">
-          <a href="<?=$_FILES['tmp_name']['image']?>"><?=$_FILES['lot']['image']['name']?></a>
+          <a href="<?=$_FILES['image']['tmp_name']?>"><?=$_FILES['image']['name']?></a>
           <input class="visually-hidden" type="file" name="image" id="image" value="<?=$_FILES['lot']['image']?>">
           <label for="image">
             Добавить
@@ -40,19 +40,18 @@
           <input type="text" name="lot[start_price]" id="lot-rate" value="<?=$_POST['lot']['start_price']?>" placeholder="0">          
           <? if(isset($error['start_price'])) : print "<span class='form__error'>Введите начальную цену</span>"; endif;?>
         </div>
-        <div class="form__item form__item--small <? if(isset($error['step-lot'])) : print "form__item--invalid"; endif;?>">
+        <div class="form__item form__item--small <? if(isset($error['step_lot'])) : print "form__item--invalid"; endif;?>">
           <label for="lot-step">Шаг ставки <sup>*</sup></label>
-          <input type="text" name="lot[step-lot]" id="step-lot" value="<?=$_POST['lot']['step-lot']?>" placeholder="0">
-          <? if(isset($error['step-lot'])) : print "<span class='form__error'>Введите шаг ставки</span>"; endif;?>
+          <input type="text" name="lot[step_lot]" id="step_lot" value="<?=$_POST['lot']['step_lot']?>" placeholder="0">
+          <? if(isset($error['step_lot'])) : print "<span class='form__error'>Введите шаг ставки</span>"; endif;?>
         </div>
-        <div class="form__item <? if(isset($error['date-finish'])) : print "form__item--invalid"; endif;?>">
+        <div class="form__item <? if(isset($error['date_finish'])) : print "form__item--invalid"; endif;?>">
           <label for="lot-date">Дата окончания торгов <sup>*</sup></label>
-          <input class="form__input-date" id="lot-date" type="text" name="lot[date-finish]"  value="<?=$_POST['lot']['date-finish']?>"  placeholder="Введите дату в формате ГГГГ-ММ-ДД">          
-          <? if(isset($error['date-finish'])) : print "<span class='form__error'>Введите дату завершения торгов</span>"; endif;?>
+          <input class="form__input-date" id="lot-date" type="text" name="lot[date_finish]"  value="<?=$_POST['lot']['date_finish']?>"  placeholder="Введите дату в формате ГГГГ-ММ-ДД">          
+          <? if(isset($error['date_finish'])) : print "<span class='form__error'>Введите дату завершения торгов</span>"; endif;?>
         </div>
       </div>     
-      <?php 
-      if (isset($error)): ?>
+      <?php if (isset($error)): ?>
       <div class="form__error">
         <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
         <ul>
