@@ -47,15 +47,23 @@ else {
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $file_type = finfo_file($finfo, $tmp_name);
                 
-                if ($file_type !== "image/png")
+                if (($file_type == "image/png") || ($file_type == "image/jpg") || ($file_type == "image/jpeg"))
                 {
-                    $error['image_type'] = 'Загрузите картинку в формате нужном формате: jpg, jpeg, png';
-                }
-                else {
+                   
                 	$add_lot = $_POST['lot'];
 
-					$filename = uniqid() . '.png';
-
+                	if ($ext == "png")
+                	{
+                		$filename = uniqid() . '.png';
+                	}
+                	if ($ext == "jpg")
+                	{
+                		$filename = uniqid() . '.jpg';
+                	}
+                	if ($ext == "jpeg")
+                	{
+                		$filename = uniqid() . '.jpeg';
+                	}
                 	$add_lot['image'] = $filename;
                     move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $filename);
                     $img_link = "uploads/".$filename;
@@ -73,6 +81,11 @@ else {
 				            $content = include_template('error.php', ['error' => mysqli_error($link)]);
 				        }
                 } 
+                else
+                {
+                	 $error['image_type'] = 'Загрузите картинку в формате нужном формате: jpg, jpeg, png';
+                }
+
             }
 
             if (count($error)) 
