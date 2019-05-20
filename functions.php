@@ -1,4 +1,5 @@
 <?php
+
 function price ($cat_price)
 {
     ceil($cat_price);
@@ -14,7 +15,6 @@ function price ($cat_price)
 
 function time_format ($bet_date)
 {
-	//$curdate = date('d.m.Y H:i');
 	$bet_time = date("H:i", strtotime($bet_date));
 	$bet_day = date("d.m.y", strtotime($bet_date));
 	$bet_date = $bet_day." в ".$bet_time;
@@ -36,7 +36,8 @@ function timer_finishing ($timer_finishing)
 	$secs_to_midnight = $ts_midnight - time();
 	$hours = floor($secs_to_midnight / 3600);
 	$one_hours = 60*60;
-	if (1 >= $hours){
+	if (1 >= $hours)
+	{
 	print("timer--finishing");
-}
+	}
 }
