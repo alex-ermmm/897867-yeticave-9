@@ -34,6 +34,26 @@ else {
                 }                
             }
 
+            if((filter_var(($_POST['lot']['start_price']), FILTER_VALIDATE_INT) == false) || (filter_var(($_POST['lot']['start_price']), FILTER_VALIDATE_INT) < 0))
+            {
+            	$error['start_price'] = 'Это числовое поле, введите сумму больше 0';
+            }
+            if((filter_var(($_POST['lot']['step_lot']), FILTER_VALIDATE_INT) == false) || (filter_var(($_POST['lot']['step_lot']), FILTER_VALIDATE_INT) < 0))
+            {
+            	$error['step_lot'] = 'Заполните поле числом больше 0';
+            }
+            if(is_date_valid($_POST['lot']['date_finish']) == false)
+			{
+            	$error['date_finish'] = 'Неверный формат даты';
+            }
+		    
+		    $date_finish = $_POST['lot']['date_finish'];
+		    $date_finish = date("d.m.Y", strtotime($date_finish));
+			$date_interval = date('d.m.Y', strtotime("+1 days"));
+			if($date_finish < $date_interval){
+				$error['date_finish'] = 'Дата окончания торгов должна быть более 1 дня';
+			}
+
             if (empty($_FILES['image']['name'])) 
             {
                 $error['no_file'] = 'Вы не загрузили файл';                
@@ -43,7 +63,6 @@ else {
                 $tmp_name = $_FILES['image']['tmp_name'];
                 $path = $_FILES['image']['name'];
                 $ext = pathinfo($path, PATHINFO_EXTENSION);
-               // echo $ext;
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $file_type = finfo_file($finfo, $tmp_name);
                 
