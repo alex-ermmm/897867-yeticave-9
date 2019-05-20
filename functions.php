@@ -15,7 +15,6 @@ function price ($cat_price)
 
 function time_format ($bet_date)
 {
-	//$curdate = date('d.m.Y H:i');
 	$bet_time = date("H:i", strtotime($bet_date));
 	$bet_day = date("d.m.y", strtotime($bet_date));
 	$bet_date = $bet_day." в ".$bet_time;

@@ -59,7 +59,6 @@
           <li><strong><?=$dict[$err];?>:</strong> <?=$val;?></li>
           <?php endforeach; ?>
         </ul>
-
-    <?php endif; ?>
-      <button type="submit" class="button">Добавить лот</button>
-    </form>
+      <?php endif; ?>
+        <button type="submit" class="button">Добавить лот</button>
+      </form>

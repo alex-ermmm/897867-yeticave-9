@@ -118,8 +118,7 @@ else {
                 'user_name' => $user_name
                 ]);
                 print($layout_content);
-            }
-            
+            }            
             else 
             {
                 $page_content = include_template('lot_tpl.php', ['lots' => $lots, 'bets' => $bets, 'category' => $category]); 
@@ -132,7 +131,6 @@ else {
 		        ]);
 		        print($layout_content);
 		        }
-
         }
         else {
             $page_content = include_template('lot_add_tpl.php', ['lots' => $lots, 'category' => $category]); 
@@ -143,7 +141,6 @@ else {
             'is_auth' => $is_auth,
             'user_name' => $user_name
         ]);
-
         print($layout_content);
         }
     }
