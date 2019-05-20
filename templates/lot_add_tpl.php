@@ -31,7 +31,7 @@
           <label for="image">
             Добавить
           </label>
-          <? if(isset($error['image'])) : print "<span class='form__error'>Добавте изображение</span>"; endif;?>
+          <? if(isset($error['image_type'])) : print "<span class='form__error'>Добавте изображение</span>"; endif;?>
         </div>
       </div>
       <div class="form__container-three">
@@ -51,15 +51,15 @@
           <? if(isset($error['date_finish'])) : print "<span class='form__error'>Введите дату завершения торгов</span>"; endif;?>
         </div>
       </div>     
-      <?php if (isset($error)): ?>
-      <div class="form__error">
+      <?php 
+      if(isset($error)): ?>
         <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
         <ul>
           <?php foreach($error as $err => $val): ?>
           <li><strong><?=$dict[$err];?>:</strong> <?=$val;?></li>
           <?php endforeach; ?>
         </ul>
-      </div>
+
     <?php endif; ?>
       <button type="submit" class="button">Добавить лот</button>
     </form>
