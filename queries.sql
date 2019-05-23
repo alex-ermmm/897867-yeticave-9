@@ -9,8 +9,8 @@ VALUES 	(NOW(), 'alex@web.ru', 'Alex', 'qwerty', 'image.jpg', '9210011'),
 
 /*добавляем лоты*/
 INSERT INTO lot (date_create, name, description, image, start_price, date_finish, step_lot, autor_id, win_user_id, category_id) 
-VALUES 	(NOW(), '2014 Rossignol District Snowboard', NULL, 'img/lot-1.jpg', '10999', '20190101', NULL, '1','1', '1'), 
-		(NOW(), 'DC Ply Mens 2016/2017 Snowboard', NULL, 'img/lot-2.jpg', '159999', '20190506', NULL, '1','1', '1'), 
+VALUES 	(NOW(), '2014 Rossignol District Snowboard', 'Описание лота 2014 Rossignol District Snowboard', 'img/lot-1.jpg', '10999', '20190101', NULL, '1','1', '1'), 
+		(NOW(), 'DC Ply Mens 2016/2017 Snowboard', 'Описание лота DC Ply Mens 2016/2017 Snowboard', 'img/lot-2.jpg', '159999', '20190506', NULL, '1','1', '1'), 
 		(NOW(), 'Крепления Union Contact Pro 2015 года размер L/XL', NULL, 'img/lot-3.jpg', '8000', '20190506', NULL, '1','1', '2'),
         (NOW(), 'Ботинки для сноуборда DC Mutiny Charocal', NULL, 'img/lot-4.jpg', '10999', '20190606', NULL, '1','1', '3'),
         (NOW(), 'Куртка для сноуборда DC Mutiny Charocal', NULL, 'img/lot-5.jpg', '7500', '20190516', NULL, '2','1', '3'),
