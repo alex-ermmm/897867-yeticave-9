@@ -14,16 +14,19 @@ else {
     {
         $lots = mysqli_fetch_all($res_lot, MYSQLI_ASSOC);
         $category = mysqli_fetch_all($res_cat, MYSQLI_ASSOC);	
-        $page_content = include_template('index_tpl.php', ['lots' => $lots, 'category' => $category]);  
+        
     }
     else {
         print mysqli_error($link);
     }
 
-$layout_content = include_template('layout.php', [
+$_SESSION = [];
+header("Location: /index.php");
+
+$layout_content = include_template('layout_pages.php', [
     'page_content' => $page_content,
     'category' => $category,
-    'title' => 'YetiCave',
+    'title' => 'YetiCave'
 ]);
 
 print($layout_content);

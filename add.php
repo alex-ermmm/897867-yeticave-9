@@ -133,14 +133,25 @@ else {
 		        }
         }
         else {
-            $page_content = include_template('lot_add_tpl.php', ['lots' => $lots, 'category' => $category]); 
-            $layout_content = include_template('layout_pages.php', [
-            'page_content' => $page_content,
-            'category' => $category,
-            'title' => 'YetiCave. Форма добавления лота',
-            'is_auth' => $is_auth,
-            'user_name' => $user_name
-        ]);
-        print($layout_content);
+            if(!isset($_SESSION['user']))
+            {
+                //header("Location: /");
+                header('HTTP/1.0 403 Forbidden');
+
+                echo 'You are forbidden!';
+                exit();
+            }
+            else
+            {
+                $page_content = include_template('lot_add_tpl.php', ['lots' => $lots, 'category' => $category]); 
+                $layout_content = include_template('layout_pages.php', [
+                'page_content' => $page_content,
+                'category' => $category,
+                'title' => 'YetiCave. Форма добавления лота',
+                'is_auth' => $is_auth,
+                'user_name' => $user_name
+                ]);
+                print($layout_content);
+            }
         }
     }
