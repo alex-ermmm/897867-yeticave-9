@@ -35,6 +35,7 @@ step_lot INT,
 autor_id INT,
 win_user_id INT,
 category_id INT,
+FULLTEXT (name,description),
 FOREIGN KEY (autor_id)  REFERENCES user (user_id),
 FOREIGN KEY (win_user_id)  REFERENCES user (user_id),
 FOREIGN KEY (category_id)  REFERENCES category (category_id)
