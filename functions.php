@@ -26,8 +26,13 @@ function time_bet_finish ($bet_date)
 	$ts_midnight = strtotime($bet_date);
 	$secs_to_midnight = $ts_midnight - time();
 	$hours = floor($secs_to_midnight / 3600);
-	$minutes = floor(($secs_to_midnight % 3600) / 60);
-	print("$hours:$minutes");
+	$minutes = floor(($secs_to_midnight % 3600) / 60);	
+	if ($hours < 0) {
+		echo "Торги окончены";
+	}
+	else{
+		print("$hours:$minutes");
+	}
 }
 
 function timer_finishing ($timer_finishing)
@@ -35,9 +40,13 @@ function timer_finishing ($timer_finishing)
 	$ts_midnight = strtotime($timer_finishing);
 	$secs_to_midnight = $ts_midnight - time();
 	$hours = floor($secs_to_midnight / 3600);
-	$one_hours = 60*60;
-	if (1 >= $hours)
+	//$one_hours = 60*60;
+	if ($hours < 0)
 	{
-	print("timer--finishing");
+	echo "timer--end";
+	}
+	elseif (1 >= $hours)
+	{
+		print("timer--finishing");
 	}
 }
