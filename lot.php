@@ -47,8 +47,58 @@ else {
             else {
                 print mysqli_error($link);                
             }
+       
+       arsort($bets);
+//echo $_POST['bet']['cost']; print_r($_SESSION['user']['user_id']);
 
-        $page_content = include_template('lot_tpl.php', ['lots' => $lots, 'bets' => $bets, 'category' => $category]); 
+       $last_bet = $bets['0']['price'];
+       $start_price = $lots['0']['start_price'];
+       $min_step_lot = $lots['0']['step_lot'];
+       //$min_bet = $min_step_lot + 
+       if(!isset($last_bet)) {
+	       	$last_bet = $lots['0']['start_price'];
+	       	$min_bet = $min_step_lot + $start_price;
+       }
+       else{      
+       	$min_bet = $min_step_lot + $last_bet;
+       }
+       
+
+        if (
+        		($_SERVER['REQUEST_METHOD'] == 'POST') and 
+        		(filter_var(($_POST['bet']['cost']), FILTER_VALIDATE_INT) !== false) and 
+        		((filter_var(($_POST['bet']['cost']), FILTER_VALIDATE_INT) > ($start_price + $min_step_lot)) and
+        		(($last_bet + $lots['0']['step_lot']) <= $_POST['bet']['cost']))
+        	) 
+		{
+			$required = ['cost'];
+            $dict = ['cost' => 'Ставка'];
+            $error = [];
+
+    	 foreach ($required as $key) {
+            if (empty($_POST['bet'][$key])){
+               $error[$key] = ' Это поле надо заполнить';
+            }                
+         }
+        	$sql = 'INSERT INTO bet (bet_date, price, user_id, lot_id) 
+        			VALUES (NOW(), ?, ?, ?)';
+            $stmt = db_get_prepare_stmt($link, $sql, [$_POST['bet']['cost'], $_SESSION['user']['user_id'], $lots['0']['lot_id']]);
+            $res = mysqli_stmt_execute($stmt);
+
+            if ($res) {
+	            $lot_id = mysqli_insert_id($link);
+	            header("Location: lot.php?lot_id=".$lots['0']['lot_id']);	            
+	        	}
+		        else {
+		            $content = include_template('error.php', ['error' => mysqli_error($link)]);
+		            //echo "ddd";
+		        }
+        }
+        else
+        {
+        	$error['cost'] = 'Ввели не верное значение';
+        }
+        $page_content = include_template('lot_tpl.php', ['lots' => $lots, 'min_bet' => $min_bet, 'last_bet' => $last_bet, 'error' => $error, 'bets' => $bets, 'category' => $category]); 
         $layout_content = include_template('layout_pages.php', [
             'page_content' => $page_content,
             'category' => $category,
