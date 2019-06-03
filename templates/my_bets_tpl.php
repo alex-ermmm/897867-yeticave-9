@@ -2,7 +2,9 @@
       <h2>Мои ставки</h2>
       <table class="rates__list">
         <? foreach ($bets as $bet):?>
-          <tr class="rates__item <?if(strtotime($bet['date_fin']) < strtotime(date("Y-m-d H:i:s"))) echo "rates__item--end";?>">
+          <tr class="rates__item 
+              <?if(strtotime($bet['date_fin']) < strtotime(date("Y-m-d H:i:s"))) echo "rates__item--end";?>
+              <?if($bet['win_user_id'] == $_SESSION['user']['user_id']) echo "rates__item--win";?>">
             <td class="rates__info">
               <div class="rates__img">
                 <img src="<?=$bet['image'];?>" width="54" height="40" alt="<?=$bet['name'];?>">
@@ -23,30 +25,6 @@
               <?=$bet['bet_date'];?>
             </td>
           </tr>
-        <?endforeach;?>
-        
-        <tr class="rates__item rates__item--win">
-          <td class="rates__info">
-            <div class="rates__img">
-              <img src="../img/rate3.jpg" width="54" height="40" alt="Крепления">
-            </div>
-            <div>
-              <h3 class="rates__title"><a href="lot.html">Крепления Union Contact Pro 2015 года размер L/XL</a></h3>
-              <p>Телефон +7 900 667-84-48, Скайп: Vlas92. Звонить с 14 до 20</p>
-            </div>
-          </td>
-          <td class="rates__category">
-            Крепления
-          </td>
-          <td class="rates__timer">
-            <div class="timer timer--win">Ставка выиграла</div>
-          </td>
-          <td class="rates__price">
-            10 999 р
-          </td>
-          <td class="rates__time">
-            Час назад
-          </td>
-        </tr>        
+        <?endforeach;?>       
       </table>
     </section>
