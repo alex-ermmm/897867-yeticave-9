@@ -9,10 +9,12 @@
         <div class="form__item <?  if($error['category_id']) : print "form__item--invalid"; endif;?>">
           <label for="category">Категория <sup>*</sup></label>
           <select id="category" name="lot[category_id]">
+
             <option value="0">Выберите категорию</option>
-            <?php foreach ($category as $categories) { ?>      
+
+            <?php  foreach ($category as $categories) {?>      
                 <option value="<?=$categories['category_id']?>" 
-                  <?if((isset($_POST['lot']['category'])) and ($_POST['lot']['category']) == $categories['category_id'] ): echo "selected"; endif;?> ><?=$categories['name']?></option>
+                  <?if(($_POST['lot']['category_id']) === $categories['category_id'] ): echo "selected"; endif;?> ><?=$categories['name']?></option>
             <?php } ?>
           </select>
           <? if($error['category_id']) : print "<span class='form__error'>Выберите категорию</span>"; endif;?>

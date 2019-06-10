@@ -8,8 +8,8 @@ if ($link == false){
 }
 else {
     $sql_lot = 'SELECT * FROM lot WHERE win_user_id ='. $_SESSION['user']['user_id'];
-    $sql_cat = 'SELECT * FROM category';  
-    $sql_bet = 'SELECT bet_date, price, bet.user_id, bet.lot_id, lot.name, lot.image, lot.date_finish AS date_fin, win_user_id, lot.category_id, (SELECT name FROM category WHERE lot.category_id = category.category_id) cats_name FROM bet JOIN lot ON bet.lot_id = lot.lot_id WHERE user_id = '.$_SESSION['user']['user_id'].' ORDER BY bet_date DESC';       
+    $sql_cat = 'SELECT * FROM category'; 
+    $sql_bet = 'SELECT bet_date, price, bet.user_id, bet.lot_id, lot.name, lot.description, lot.image, lot.date_finish AS date_fin, win_user_id, lot.category_id, (SELECT name FROM category WHERE lot.category_id = category.category_id) cats_name, (SELECT contact FROM user WHERE bet.user_id = user.user_id) user_contact FROM bet JOIN lot ON bet.lot_id = lot.lot_id WHERE user_id = '.$_SESSION['user']['user_id'].' ORDER BY bet_date DESC';       
       
 	if (($res_bet = mysqli_query($link, $sql_bet)) and ($res_lot = mysqli_query($link, $sql_lot)) and ($res_cat = mysqli_query($link, $sql_cat))) 
     {

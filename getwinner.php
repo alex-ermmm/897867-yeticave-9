@@ -67,16 +67,19 @@ else {
                                         $message->setFrom(['keks@phpdemo.ru' => 'YetiCave']);
                                         $message->setBcc($recipients);
 
-                                        $msg_content = include_template('email.php', ['users' => $users]);
+                                        $msg_content = include_template('email_tpl.php', ['users' => $users]);
                                         $message->setBody($msg_content, 'text/html');
                                         $result = $mailer->send($message);
 
-                                        /*if ($result) {
-                                            print ("Рассылка успешно отправлена");
+                                        $log_file = 'log.txt';
+                                        $message_log = file_get_contents($log_file);
+                                        if ($result) {
+                                            $message_log = date("m.d.y")." ".date("H:i:s")."Рассылка успешно отправлена \n";
                                         }
                                         else {
-                                            print("Не удалось отправить рассылку: " . $logger->dump());
-                                        }*/
+                                            $message_log =  date("m.d.y")." ".date("H:i:s"). "Не удалось отправить рассылку: " . $logger->dump() ."\n";
+                                        }
+                                        file_put_contents($log_file, $message_log);
 
                                     }
                                 }

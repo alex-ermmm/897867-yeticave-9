@@ -9,20 +9,22 @@
               <div class="rates__img">
                 <img src="<?=$bet['image'];?>" width="54" height="40" alt="<?=$bet['name'];?>">
               </div>
-              <h3 class="rates__title"><a href="lot.php?lot_id=<?=$bet['lot_id'];?>"><?=$bet['name'];?></a></h3>
+              <h3 class="rates__title"><a href="lot.php?lot_id=<?=$bet['lot_id'];?>"><?=strip_tags($bet['name']);?></a></h3>
+              <?if($bet['win_user_id'] == $_SESSION['user']['user_id']) echo "<p>".strip_tags($bet['user_contact'])."</p>";?>
             </td>
             <td class="rates__category">
-              <?=$bet['cats_name'];?>
+              <?=strip_tags($bet['cats_name']);?>
             </td>
             <td class="rates__timer">
-              <div class="timer <?=timer_finishing($bet['date_fin']);?>">
-                <?=time_bet_finish($bet['date_fin']);?></div>
+              <div class="timer <?if((strip_tags(timer_finishing($bet['date_fin'])) === 'timer--end') and ($bet['win_user_id'] == $_SESSION['user']['user_id'])) echo "timer--win"; else echo "timer--end";?>">
+
+                <?if((strip_tags(time_bet_finish($bet['date_fin'])) === 'Торги окончены') and ($bet['win_user_id'] == $_SESSION['user']['user_id'])) echo "Ставка выиграла"; else echo strip_tags(time_bet_finish($bet['date_fin']));?></div>
             </td>
             <td class="rates__price">
-              <?=price($bet['price']);?>
+              <?=strip_tags(price($bet['price']));?>
             </td>
             <td class="rates__time">
-              <?=$bet['bet_date'];?>
+              <?=strip_tags($bet['bet_date']);?>
             </td>
           </tr>
         <?endforeach;?>       
