@@ -22,27 +22,35 @@ else {
     
     $search = $_GET['search'] ?? '';
 
-    if ($search) {
-
-        
+    if ($search) {        
 
         $cur_page = $_GET['page'] ?? 1;
-        $page_items = 9;
+        $page_items = 3;
         $search_lot = [];
 
-        $result_page = mysqli_query($link, "SELECT COUNT(*) as count FROM lot");
-        $items_count = mysqli_fetch_assoc($result_page)['count'];
+        mysqli_query($link, 'CREATE FULLTEXT INDEX lot_search ON lot(name, description)');
+
+        $result_page =  "SELECT COUNT(*) as counter, lot_id, date_create, lot.name, description, image, start_price, date_finish, step_lot, lot.category_id, category.name as cat_name FROM lot JOIN category ON category.category_id = lot.category_id  WHERE MATCH (lot.name, lot.description) AGAINST(?)";
+        
+        $stmtp = db_get_prepare_stmt($link, $result_page, [$search]);
+        mysqli_stmt_execute($stmtp);
+        $result_count = mysqli_stmt_get_result($stmtp);
+        $search_lot = mysqli_fetch_all($result_count, MYSQLI_ASSOC); 
+         
+        $items_count = $search_lot['0']['counter'];
 
         $pages_count = ceil($items_count / $page_items);
         $offset = ($cur_page - 1) * $page_items;
 
         $pages = range(1, $pages_count);
+        $start_link = "search.php?search";
+        $get_search = $_GET['search'];  
 
         $sql = "SELECT lot_id, date_create, lot.name, description, image, start_price, date_finish, step_lot, lot.category_id, category.name as cat_name FROM lot JOIN category ON category.category_id = lot.category_id  WHERE MATCH (lot.name, lot.description) AGAINST(?) LIMIT ".$page_items." OFFSET ".$offset;
         $stmt = db_get_prepare_stmt($link, $sql, [$search]);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
-        $search_lot = mysqli_fetch_all($result, MYSQLI_ASSOC);       
+        $search_lot = mysqli_fetch_all($result, MYSQLI_ASSOC); 
     }
 
 
@@ -52,7 +60,7 @@ else {
     }
     else{
 
-        $pagination = include_template('pagination_tpl.php', ['pages' => $pages, 'pages_count' => $pages_count, 'cur_page' => $cur_page]); 
+        $pagination = include_template('pagination_tpl.php', ['pages' => $pages, 'pages_count' => $pages_count, 'cur_page' => $cur_page,'start_link' => $start_link, 'get_search' => $get_search]); 
         $page_content = include_template('search_tpl.php', ['search_lot' => $search_lot, 'search' => $search, 'pagination' => $pagination]);
     }
 
@@ -62,7 +70,6 @@ $layout_content = include_template('layout_pages.php', [
     'page_content' => $page_content,
     'category' => $category,
     'title' => 'YetiCave',
-    'is_auth' => $is_auth,
     'username' => $username
 ]);
 
