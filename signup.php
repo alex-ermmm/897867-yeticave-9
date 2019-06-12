@@ -63,9 +63,7 @@ else {
 $layout_content = include_template('layout_pages.php', [
     'page_content' => $page_content,
     'category' => $category,
-    'title' => 'YetiCave',
-    'is_auth' => $is_auth,
-    'user_name' => $user_name
+    'title' => 'YetiCave'
 ]);
 
 print($layout_content);
