@@ -3,7 +3,7 @@ require_once('helpers.php');
 require_once('functions.php');
 require_once('data.php');
 
-if ($link == false){
+if ($link === false){
     print("Ошибка: Невозможно подключиться к MySQL " . mysqli_connect_error());
 }
 else {
@@ -25,7 +25,7 @@ else {
     if ($search) {        
 
         $cur_page = $_GET['page'] ?? 1;
-        $page_items = 3;
+        $page_items = 9;
         $search_lot = [];
 
         mysqli_query($link, 'CREATE FULLTEXT INDEX lot_search ON lot(name, description)');
@@ -61,6 +61,7 @@ else {
     else{
 
         $pagination = include_template('pagination_tpl.php', ['pages' => $pages, 'pages_count' => $pages_count, 'cur_page' => $cur_page,'start_link' => $start_link, 'get_search' => $get_search]); 
+      //  print_r($search_lot);
         $page_content = include_template('search_tpl.php', ['search_lot' => $search_lot, 'search' => $search, 'pagination' => $pagination]);
     }
 
@@ -70,7 +71,6 @@ $layout_content = include_template('layout_pages.php', [
     'page_content' => $page_content,
     'category' => $category,
     'title' => 'YetiCave',
-    'username' => $username
 ]);
 
 print($layout_content);

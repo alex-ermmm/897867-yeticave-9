@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?=$title;?></title>
+    <title><?if(isset($title)) print($title);?></title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -23,7 +23,7 @@
         <nav class="user-menu">
         <?if(isset($_SESSION['user'])): ?>
             <div class="user-menu__logged">
-                <p><?=$_SESSION['user']['name']?></p>
+                <p><?if(Isset($_SESSION['user']['name'])) print($_SESSION['user']['name']);?></p>
                 <a class="user-menu__bets" href="my_bets.php">Мои ставки</a>
                 <a class="user-menu__logout" href="logout.php">Выход</a>
             </div>
@@ -37,18 +37,17 @@
                </li>
             </ul>
         <?endif;?>
-        <!-- здесь должен быть PHP код для показа меню и данных пользователя -->
         </nav>
     </div>
 </header>
-<?=$page_content;?>
+<?if(isset($page_content)) print($page_content);?>
 </div>
 
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
             <?php foreach ($category as $menu_bottom):?>                
-                <li class='nav__item'><a href="category.php?cat_id=<?=$menu_bottom['category_id'];?>"><?=$menu_bottom['name'];?></a></li>            
+                <li class='nav__item'><a href="category.php?cat_id=<?=$menu_bottom['category_id'];?>"><?if(isset($menu_bottom['name'])) print $menu_bottom['name'];?></a></li>            
             <?endforeach;?>
         </ul>
     </nav>

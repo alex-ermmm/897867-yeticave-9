@@ -3,7 +3,7 @@ require_once('helpers.php');
 require_once('functions.php');
 require_once('data.php');
 
-if ($link == false){
+if ($link === false){
     print("Ошибка: Невозможно подключиться к MySQL " . mysqli_connect_error());
 }
 else {
@@ -20,7 +20,7 @@ else {
         print mysqli_error($link);
     }
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST')
+    if($_SERVER['REQUEST_METHOD'] === 'POST')
     {
 
         $form_array = $_POST['login'];
@@ -35,7 +35,7 @@ else {
                 }                
             }
 
-        if(filter_var(($form_array['email']), FILTER_VALIDATE_EMAIL) == false)
+        if(filter_var(($form_array['email']), FILTER_VALIDATE_EMAIL) === false)
             {
                 $error['email'] = 'Не верный формат';
             }
@@ -68,7 +68,7 @@ else {
     
         else
             {
-                header("Location: /welcome.php");
+                header("Location: /index.php");
                 exit();
             }
     }
@@ -76,12 +76,12 @@ else {
     {
         if (isset($_SESSION['user'])) 
         {
-            $username = $_SESSION['user']['name'];
-            $page_content = include_template('welcome_tpl.php', ['username' => $username]);
+            header("Location: /index.php");
+            exit();
         }
         else 
         {
-            $page_content = include_template('login_tpl.php', ['lots' => $lots, 'category' => $category, 'error' => $error]); 
+            $page_content = include_template('login_tpl.php', ['lots' => $lots, 'category' => $category]); 
         }  
 
     }
@@ -89,9 +89,7 @@ else {
 $layout_content = include_template('layout_pages.php', [
     'page_content' => $page_content,
     'category' => $category,
-    'title' => 'YetiCave',
-    'is_auth' => $is_auth,
-    'username' => $username
+    'title' => 'Вход в личный кабинет'
 ]);
 
 print($layout_content);

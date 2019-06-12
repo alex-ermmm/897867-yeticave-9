@@ -57,7 +57,27 @@ function timer_finishing ($timer_finishing){
 	if ($hours < 0){
 		return "timer--end";
 	}
-	elseif (1 >= $hours){
+	if (1 >= $hours){
 		return "timer--finishing";
 	}
+}
+
+/**
+ * 
+ * @param type $link - линк базы данных
+ * @param type $sql - подготовленный запрос
+ * @return array|boolean массив всех записей или false 
+ */
+function db_fetch_all($link, $sql)
+{
+    if (($res_querry = mysqli_query($link, $sql))) {
+        $result = mysqli_fetch_all($res_querry, MYSQLI_ASSOC);
+        return $result;
+    } 
+
+    if (mysqli_errno($link) > 0) {
+        $errorMsg = 'Не удалось получить ответ из mysql: ' . mysqli_error($link);
+        die($errorMsg);
+    }
+    return false;
 }

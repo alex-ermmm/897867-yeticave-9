@@ -1,7 +1,7 @@
 <ul class="pagination-list">
   <li class="pagination-item pagination-item-prev">
-  	<?if($_GET['page']>1):?> 
-  		<a href="/<?=$start_link;?>=<?=$get_search?>&page=<?=$_GET['page']-1;?>">Назад</a>
+  	<?if((isset($_GET['page'])) and ($_GET['page']>1)):?> 
+  		<a href="/<?if(isset($start_link)) print $start_link;?>=<?if(isset($get_search)) print $get_search;?>&page=<?=$_GET['page']-1;?>">Назад</a>
   	<?else:?>
   	<a>Назад</a>
   	<?endif;?>

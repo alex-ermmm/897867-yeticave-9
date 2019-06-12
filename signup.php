@@ -3,7 +3,7 @@ require_once('helpers.php');
 require_once('functions.php');
 require_once('data.php');
 
-if ($link == false){
+if ($link === false){
     print("Ошибка: Невозможно подключиться к MySQL " . mysqli_connect_error());
 }
 else {
@@ -14,13 +14,13 @@ else {
     {
         $lots = mysqli_fetch_all($res_lot, MYSQLI_ASSOC);
         $category = mysqli_fetch_all($res_cat, MYSQLI_ASSOC);	
-        $page_content = include_template('signup_tpl.php', ['lots' => $lots, 'category' => $category, 'error' => $error]);  
+        $page_content = include_template('signup_tpl.php', ['lots' => $lots, 'category' => $category]);  
     }
     else {
         print mysqli_error($link);
     }
 
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
     	
     	$form_array = $_POST['signup'];
 
@@ -34,19 +34,16 @@ else {
                 }                
             }
         
-        if(filter_var(($form_array['email']), FILTER_VALIDATE_EMAIL) == false)
-            {
+        if(filter_var(($form_array['email']), FILTER_VALIDATE_EMAIL) === false){
             	$error['email'] = 'Не верный формат';
             }
 
-        if (empty($error)) 
-	        { 
+        if (empty($error)){ 
 		        $email = mysqli_real_escape_string($link, $form_array['email']);
 		        $sql = "SELECT user_id FROM user WHERE email = '$email'";
 		        $res = mysqli_query($link, $sql);
 
-		        if (mysqli_num_rows($res) > 0) 
-		        {
+		        if (mysqli_num_rows($res) > 0) {
 		            $error['email'] = 'Пользователь с этим email уже зарегистрирован';
 		        }
 		        else{
@@ -60,16 +57,13 @@ else {
 		            exit();
 		        }
 	    	}
+        $page_content = include_template('signup_tpl.php', ['dict' => $dict, 'error' => $error]);  
     }
-
-$page_content = include_template('signup_tpl.php', ['dict' => $dict, 'error' => $error]);  
 
 $layout_content = include_template('layout_pages.php', [
     'page_content' => $page_content,
     'category' => $category,
-    'title' => 'YetiCave',
-    'is_auth' => $is_auth,
-    'user_name' => $user_name
+    'title' => 'YetiCave'
 ]);
 
 print($layout_content);

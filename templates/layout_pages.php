@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title><?=$title;?></title>
+  <title><?if(isset($title)) print($title);?></title>
   <link href="../css/normalize.min.css" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -16,14 +16,14 @@
         <img src="../img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
       </a>
       <form class="main-header__search" method="get" action="search.php" autocomplete="off">
-        <input type="search" name="search" value="<?=$_GET['search'];?>">
+        <input type="search" name="search" value="<?if(isset($_GET['search'])) print $_GET['search'];?>">
         <input class="main-header__search-btn" type="submit" name="find" value="Найти">
       </form>
       <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
       <nav class="user-menu">
         <?if(isset($_SESSION['user'])): ?>
             <div class="user-menu__logged">
-                <p><?=($_SESSION['user']['name'])?></p>
+                <p><?if(Isset($_SESSION['user']['name'])) print($_SESSION['user']['name']);?></p>
                 <a class="user-menu__bets" href="my_bets.php">Мои ставки</a>
                 <a class="user-menu__logout" href="logout.php">Выход</a>
             </div>
@@ -45,11 +45,11 @@
     <nav class="nav">
         <ul class="nav__list container">
             <?php foreach ($category as $menu_bottom):?>                
-                <li class='nav__item'><a href="category.php?cat_id=<?=$menu_bottom['category_id'];?>"><?=$menu_bottom['name'];?></a></li>            
+                <li class='nav__item'><a href="category.php?cat_id=<?=$menu_bottom['category_id'];?>"><?if(isset($menu_bottom['name'])) print $menu_bottom['name'];?></a></li>            
             <?endforeach;?>
         </ul>
     </nav>
-    <?=$page_content;?>
+<?if(isset($page_content)) print($page_content);?>
   </main>
 </div>
 
@@ -57,7 +57,7 @@
   <nav class="nav">
       <ul class="nav__list container">
           <?php foreach ($category as $menu_bottom):?>                
-              <li class='nav__item'><a href="category.php?cat_id=<?=$menu_bottom['category_id'];?>"><?=$menu_bottom['name'];?></a></li>            
+              <li class='nav__item'><a href="category.php?cat_id=<?=$menu_bottom['category_id'];?>"><?if(isset($menu_bottom['name'])) print $menu_bottom['name'];?></a></li>            
           <?endforeach;?>
       </ul>
   </nav>
