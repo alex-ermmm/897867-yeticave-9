@@ -52,10 +52,12 @@ else {
         }
 	    
 	    $date_finish = $_POST['lot']['date_finish'];
-	    $date_finish = date("d.m.Y", strtotime($date_finish));
-		$date_interval = date('d.m.Y', strtotime("+1 days"));
+	    $date_finish = date('Y-m-d', strtotime($date_finish));
+        
+		$date_interval = date('Y-m-d', strtotime("+1 days"));
 
-		if($date_finish > $date_interval){
+
+		if($date_finish < $date_interval){
 			$error['date_finish'] = 'Дата окончания торгов должна быть более 1 дня';
 		}
 
@@ -75,9 +77,6 @@ else {
             
             if (($file_type === "image/png") || ($file_type === "image/jpg") || ($file_type === "image/jpeg"))
             {
-               
-            	$add_lot = $_POST['lot'];
-
             	if ($ext === "png")
             	{
             		$filename = uniqid() . '.png';
@@ -90,12 +89,12 @@ else {
             	{
             		$filename = uniqid() . '.jpeg';
             	}
-            	$add_lot['image'] = $filename;
+            	//$add_lot['image'] = $filename;
                 move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $filename);
                 $img_link = "uploads/".$filename;
 
-                $sql = 'INSERT INTO lot (date_create, name, description, image, start_price, date_finish, step_lot, autor_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, 1, ?)';
-                $stmt = db_get_prepare_stmt($link, $sql, [$add_lot['title'], $add_lot['description'], $img_link, $add_lot['start_price'], $add_lot['date_finish'], $add_lot['step_lot'], $add_lot['category_id']]);
+                $sql = 'INSERT INTO lot (date_create, name, description, image, start_price, date_finish, step_lot, autor_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)';
+                $stmt = db_get_prepare_stmt($link, $sql, [$_POST['lot']['title'], $_POST['lot']['description'], $img_link, $_POST['lot']['start_price'], $_POST['lot']['date_finish'], $_POST['lot']['step_lot'], $_SESSION['user']['user_id'], $_POST['lot']['category_id']]);
                 $res = mysqli_stmt_execute($stmt);
 
                 if ($res) {

@@ -3,7 +3,7 @@
       <table class="rates__list">
         <? foreach ($bets as $bet):?>
           <tr class="rates__item 
-              <?if(strtotime($bet['date_fin']) < strtotime(date("Y-m-d H:i:s"))) echo "rates__item--end";?>
+              <?if((strtotime($bet['date_fin']) < strtotime(date("Y-m-d H:i:s"))) and ($bet['win_user_id'] !== $_SESSION['user']['user_id'])) echo "rates__item--end";?>
               <?if($bet['win_user_id'] == $_SESSION['user']['user_id']) echo "rates__item--win";?>">
             <td class="rates__info">
               <div class="rates__img">
@@ -15,16 +15,23 @@
             <td class="rates__category">
               <?=strip_tags($bet['cats_name']);?>
             </td>
-            <td class="rates__timer">
-              <div class="timer <?if((strip_tags(timer_finishing($bet['date_fin'])) === 'timer--end') and ($bet['win_user_id'] == $_SESSION['user']['user_id'])) echo "timer--win"; else echo "timer--end";?>">
+            <td class="rates__timer ">
+              <div class="timer <?
+                if(($bet['win_user_id'] == $_SESSION['user']['user_id'])) 
+                    echo "timer--win"; 
+                  elseif (((timer_finishing($bet['date_fin'])) ==='timer--finishing')) 
+                    echo 'timer--finishing'; 
+                  elseif (((timer_finishing($bet['date_fin'])) ==='timer--end')) 
+                    echo 'timer--end';
+                  ?>">
 
                 <?if((strip_tags(time_bet_finish($bet['date_fin'])) === 'Торги окончены') and ($bet['win_user_id'] == $_SESSION['user']['user_id'])) echo "Ставка выиграла"; else echo strip_tags(time_bet_finish($bet['date_fin']));?></div>
             </td>
             <td class="rates__price">
-              <?=strip_tags(price($bet['price']));?>
+              <?if(isset($bet['price'])) print strip_tags(price($bet['price']));?>
             </td>
             <td class="rates__time">
-              <?=strip_tags($bet['bet_date']);?>
+              <?if(isset($bet['bet_date'])) strip_tags($bet['bet_date']);?>
             </td>
           </tr>
         <?endforeach;?>       

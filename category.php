@@ -4,7 +4,7 @@ require_once('functions.php');
 require_once('data.php');
 
 
-if ($link == false){
+if ($link === false){
     print("Ошибка: Невозможно подключиться к MySQL " . mysqli_connect_error());
 }
 else {
@@ -19,7 +19,7 @@ else {
             }
 
         foreach ($category as $value) {
-             if($_GET['cat_id'] == $value['category_id']){
+             if($_GET['cat_id'] === $value['category_id']){
               $cat_exist = TRUE;
               $id_cat = $_GET['cat_id'];
               $name_cat = $value['name'];
@@ -27,10 +27,10 @@ else {
         }
 
 
-        if ((isset($_GET['cat_id'])) and (filter_var(($_GET['cat_id']), FILTER_VALIDATE_INT)) and ($cat_exist == TRUE)) 
+        if ((isset($_GET['cat_id'])) and (filter_var(($_GET['cat_id']), FILTER_VALIDATE_INT)) and ($cat_exist === TRUE)) 
         {   
             
-            $page_items = 3;
+            $page_items =9;
             $sql_lot = 'SELECT * FROM lot WHERE category_id = '.$id_cat.'  ORDER BY lot_id DESC LIMIT ' . $page_items;
             
             if ($res_lot = mysqli_query($link, $sql_lot)){
@@ -56,10 +56,10 @@ else {
                 $start_link = "category.php?cat_id";
                 $get_search = $_GET['cat_id'];
                 
-                $sql = 'SELECT * FROM lot WHERE category_id = '.$id_cat.' LIMIT ' . $page_items . ' OFFSET ' . $offset;
+                $sql = 'SELECT * FROM lot WHERE category_id = '.$id_cat.' ORDER BY lot_id DESC LIMIT ' . $page_items . ' OFFSET ' . $offset;
 
                 if ($lots = mysqli_query($link, $sql)) {
-                    $page_content = include_template('category_tpl.php', ['lots' => $lots, 'page_pagination' => $page_pagination, 'category' => $category, 'name_cat' => $name_cat]);
+                    $page_content = include_template('category_tpl.php', ['lots' => $lots, 'category' => $category, 'name_cat' => $name_cat]);
                         $page_pagination = include_template('pagination_tpl.php', 
                             ['lots' => $lots,
                             'pages' => $pages,

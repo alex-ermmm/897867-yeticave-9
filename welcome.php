@@ -3,7 +3,7 @@ require_once('helpers.php');
 require_once('functions.php');
 require_once('data.php');
 
-if ($link == false){
+if ($link === false){
     print("Ошибка: Невозможно подключиться к MySQL " . mysqli_connect_error());
 }
 else {

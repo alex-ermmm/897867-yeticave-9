@@ -46,38 +46,47 @@ else {
             else {
                 print mysqli_error($link);                
             }
-       
-	       arsort($bets);
 
-	       $last_bet = $bets['0']['price'];
-	       $start_price = $lots['0']['start_price'];
-	       $min_step_lot = $lots['0']['step_lot'];
+		arsort($bets);
 
-	       if(!isset($last_bet)) {
+	    if(!empty($bets)){
+		    $last_bet = $bets['0']['price'];
+		    $last_bet_user = $bets['0']['user_id'];
+	    }
+	    else{
+	    	$last_bet_user = NULL;
+	    }
+	    
+
+		$start_price = $lots['0']['start_price'];
+		$min_step_lot = $lots['0']['step_lot'];
+
+    	if(!isset($last_bet)) {
 		       	$last_bet = $lots['0']['start_price'];
 		       	$min_bet = $min_step_lot + $start_price;
-	       }
-	       else{      
-	       	$min_bet = $min_step_lot + $last_bet;
-	       }
-	       
+	    }
+	    else{      
+	    	$min_bet = $min_step_lot + $last_bet;
+	    }
 
-	        if (
-	        		($_SERVER['REQUEST_METHOD'] == 'POST') and 
-	        		(filter_var(($_POST['bet']['cost']), FILTER_VALIDATE_INT) !== false) and 
-	        		((filter_var(($_POST['bet']['cost']), FILTER_VALIDATE_INT) > ($start_price + $min_step_lot)) and
-	        		(($last_bet + $lots['0']['step_lot']) <= $_POST['bet']['cost']))
-	        	) 
+        if (
+        		($_SERVER['REQUEST_METHOD'] === 'POST') and 
+        		(filter_var(($_POST['bet']['cost']), FILTER_VALIDATE_INT) !== false) and 
+        		((filter_var(($_POST['bet']['cost']), FILTER_VALIDATE_INT) >= ($start_price + $min_step_lot)) and
+        		(($last_bet + $lots['0']['step_lot']) <= $_POST['bet']['cost']))
+        	) 
 			{
 				$required = ['cost'];
 	            $dict = ['cost' => 'Ставка'];
 	            $error = [];
 
-	    	 foreach ($required as $key) {
-	            if (empty($_POST['bet'][$key])){
-	               $error[$key] = ' Это поле надо заполнить';
-	            }                
-	         }
+
+		    	foreach ($required as $key) {
+		            if (empty($_POST['bet'][$key])){
+		               $error[$key] = ' Это поле надо заполнить';
+		            }                
+		         }
+
 	        	$sql = 'INSERT INTO bet (bet_date, price, user_id, lot_id) 
 	        			VALUES (NOW(), ?, ?, ?)';
 	            $stmt = db_get_prepare_stmt($link, $sql, [$_POST['bet']['cost'], $_SESSION['user']['user_id'], $lots['0']['lot_id']]);
@@ -87,15 +96,15 @@ else {
 		            $lot_id = mysqli_insert_id($link);
 		            header("Location: lot.php?lot_id=".$lots['0']['lot_id']);	            
 		        	}
-			        else {
+			    else {
 			            $content = include_template('error.php', ['error' => mysqli_error($link)]);
-			        }
+			    }
 	        }
-	        elseif ($_SERVER['REQUEST_METHOD'] == 'POST')  
+	        elseif ($_SERVER['REQUEST_METHOD'] === 'POST')  
 	        {	        	
 	        	$error['bet']['cost'] = 'Ввели не верное значение';
 	        }
-	        $page_content = include_template('lot_tpl.php', ['lots' => $lots, 'min_bet' => $min_bet, 'last_bet' => $last_bet, 'error' => $error, 'bets' => $bets, 'category' => $category]); 
+	        $page_content = include_template('lot_tpl.php', ['lots' => $lots, 'last_bet_user' => $last_bet_user, 'min_bet' => $min_bet, 'last_bet' => $last_bet, 'bets' => $bets, 'category' => $category]); 
 	        $layout_content = include_template('layout_pages.php', [
 	            'page_content' => $page_content,
 	            'category' => $category,

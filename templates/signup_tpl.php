@@ -2,25 +2,25 @@
       <h2>Регистрация нового аккаунта</h2>
       <div class="form__item <? if(isset($error['email'])) : print "form__item--invalid"; endif;?>"> <!-- form__item--invalid -->
         <label for="email">E-mail <sup>*</sup></label>
-        <input id="email" type="text" name="signup[email]" value="<?=$_POST['signup']['email']?>" placeholder="Введите e-mail">
+        <input id="email" type="text" name="signup[email]" value="<?if(isset($_POST['signup']['email'])) print $_POST['signup']['email'];?>" placeholder="Введите e-mail">
         <span class="form__error">Введите e-mail</span>
         <? if(isset($error['email'])) : print "<span class='form__error'>".$error['email']."</span>"; endif;?>
       </div>
       <div class="form__item <? if(isset($error['password'])) : print "form__item--invalid"; endif;?>">
         <label for="password">Пароль <sup>*</sup></label>
-        <input id="password" type="password" name="signup[password]" value="<?=$_POST['signup']['password']?>"  placeholder="Введите пароль">
+        <input id="password" type="password" name="signup[password]" value="<?if(isset($_POST['signup']['password'])) print $_POST['signup']['password'];?>"  placeholder="Введите пароль">
         <span class="form__error">Введите пароль</span>
         <? if(isset($error['password'])) : print "<span class='form__error'>".$error['password']."</span>"; endif;?>
       </div>
       <div class="form__item <? if(isset($error['name'])) : print "form__item--invalid"; endif;?>">
         <label for="name">Имя <sup>*</sup></label>
-        <input id="name" type="text" name="signup[name]"  value="<?=$_POST['signup']['name']?>" placeholder="Введите имя">
+        <input id="name" type="text" name="signup[name]"  value="<?if(isset($_POST['signup']['name'])) print $_POST['signup']['name'];?>" placeholder="Введите имя">
         <span class="form__error">Введите имя</span>
         <? if(isset($error['name'])) : print "<span class='form__error'>".$error['name']."</span>"; endif;?>
       </div>
       <div class="form__item">
         <label for="message">Контактные данные <sup>*</sup></label>
-        <textarea id="message" name="signup[message]" placeholder="Напишите как с вами связаться"><?=$_POST['signup']['message']?></textarea>
+        <textarea id="message" name="signup[message]" placeholder="Напишите как с вами связаться"><?if(isset($_POST['signup']['message'])) print $_POST['signup']['message'];?></textarea>
         <span class="form__error">Напишите как с вами связаться</span>
       </div>
 
@@ -33,5 +33,5 @@
         </ul>
       <?php endif; ?>
       <button type="submit" class="button">Зарегистрироваться</button>
-      <a class="text-link" href="#">Уже есть аккаунт</a>
+      <a class="text-link" href="login.php">Уже есть аккаунт</a>
     </form>

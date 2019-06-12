@@ -4,7 +4,7 @@ require_once('functions.php');
 require_once('data.php');
 require_once ('../../vendor/autoload.php');
 
-if ($link == false){
+if ($link === false){
     print("Ошибка: Невозможно подключиться к MySQL " . mysqli_connect_error());
 }
 else {
