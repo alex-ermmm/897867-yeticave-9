@@ -30,124 +30,124 @@ else {
 
         foreach ($required as $key) {
             if (empty($_POST['lot'][$key])){
-               $error[$key] = ' Это поле надо заполнить';
-            }                
-        }
+             $error[$key] = ' Это поле надо заполнить';
+         }                
+     }
 
-        if((filter_var(($_POST['lot']['start_price']), FILTER_VALIDATE_INT) === false) || (filter_var(($_POST['lot']['start_price']), FILTER_VALIDATE_INT) < 0))
-        {
-        	$error['start_price'] = 'Это числовое поле, введите сумму больше 0';
-        }
-        if((filter_var(($_POST['lot']['step_lot']), FILTER_VALIDATE_INT) === false) || (filter_var(($_POST['lot']['step_lot']), FILTER_VALIDATE_INT) < 0))
-        {
-        	$error['step_lot'] = 'Заполните поле числом больше 0';
-        }
-        if(is_date_valid($_POST['lot']['date_finish']) === false)
-		{
-        	$error['date_finish'] = 'Неверный формат даты';
-        }
-        if(is_date_valid($_POST['lot']['date_finish']) === false)
-        {
-            $error['date_finish'] = 'Неверный формат даты';
-        }
-	    
-	    $date_finish = $_POST['lot']['date_finish'];
-	    $date_finish = date('Y-m-d', strtotime($date_finish));
-        
-		$date_interval = date('Y-m-d', strtotime("+1 days"));
+     if((filter_var(($_POST['lot']['start_price']), FILTER_VALIDATE_INT) === false) || (filter_var(($_POST['lot']['start_price']), FILTER_VALIDATE_INT) < 0))
+     {
+       $error['start_price'] = 'Это числовое поле, введите сумму больше 0';
+   }
+   if((filter_var(($_POST['lot']['step_lot']), FILTER_VALIDATE_INT) === false) || (filter_var(($_POST['lot']['step_lot']), FILTER_VALIDATE_INT) < 0))
+   {
+       $error['step_lot'] = 'Заполните поле числом больше 0';
+   }
+   if(is_date_valid($_POST['lot']['date_finish']) === false)
+   {
+       $error['date_finish'] = 'Неверный формат даты';
+   }
+   if(is_date_valid($_POST['lot']['date_finish']) === false)
+   {
+    $error['date_finish'] = 'Неверный формат даты';
+}
+
+$date_finish = $_POST['lot']['date_finish'];
+$date_finish = date('Y-m-d', strtotime($date_finish));
+
+$date_interval = date('Y-m-d', strtotime("+1 days"));
 
 
-		if($date_finish < $date_interval){
-			$error['date_finish'] = 'Дата окончания торгов должна быть более 1 дня';
-		}
+if($date_finish < $date_interval){
+ $error['date_finish'] = 'Дата окончания торгов должна быть более 1 дня';
+}
 
-        if (empty($_FILES['image']['name'])) 
-        {
-            $error['no_file'] = 'Вы не загрузили файл';                
-        }
-        else 
-        {
+if (empty($_FILES['image']['name'])) 
+{
+    $error['no_file'] = 'Вы не загрузили файл';                
+}
+else 
+{
 
-            $tmp_name = $_FILES['image']['tmp_name'];
-            $path = $_FILES['image']['name'];
-            $ext =  (string) pathinfo($path, PATHINFO_EXTENSION);
+    $tmp_name = $_FILES['image']['tmp_name'];
+    $path = $_FILES['image']['name'];
+    $ext =  (string) pathinfo($path, PATHINFO_EXTENSION);
 
-            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-            $file_type = finfo_file($finfo, $tmp_name);
-            
-            if (($file_type === "image/png") || ($file_type === "image/jpg") || ($file_type === "image/jpeg"))
-            {
-            	if ($ext === "png")
-            	{
-            		$filename = uniqid() . '.png';
-            	}
-            	if ($ext === "jpg")
-            	{
-            		$filename = uniqid() . '.jpg';
-            	}
-            	if ($ext === "jpeg")
-            	{
-            		$filename = uniqid() . '.jpeg';
-            	}
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    $file_type = finfo_file($finfo, $tmp_name);
+    
+    if (($file_type === "image/png") || ($file_type === "image/jpg") || ($file_type === "image/jpeg"))
+    {
+       if ($ext === "png")
+       {
+          $filename = uniqid() . '.png';
+      }
+      if ($ext === "jpg")
+      {
+          $filename = uniqid() . '.jpg';
+      }
+      if ($ext === "jpeg")
+      {
+          $filename = uniqid() . '.jpeg';
+      }
             	//$add_lot['image'] = $filename;
-                move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $filename);
-                $img_link = "uploads/".$filename;
+      move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $filename);
+      $img_link = "uploads/".$filename;
 
-                $sql = 'INSERT INTO lot (date_create, name, description, image, start_price, date_finish, step_lot, autor_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)';
-                $stmt = db_get_prepare_stmt($link, $sql, [$_POST['lot']['title'], $_POST['lot']['description'], $img_link, $_POST['lot']['start_price'], $_POST['lot']['date_finish'], $_POST['lot']['step_lot'], $_SESSION['user']['user_id'], $_POST['lot']['category_id']]);
-                $res = mysqli_stmt_execute($stmt);
+      $sql = 'INSERT INTO lot (date_create, name, description, image, start_price, date_finish, step_lot, autor_id, category_id) VALUES (NOW(), ?, ?, ?, ?, ?, ?, ?, ?)';
+      $stmt = db_get_prepare_stmt($link, $sql, [$_POST['lot']['title'], $_POST['lot']['description'], $img_link, $_POST['lot']['start_price'], $_POST['lot']['date_finish'], $_POST['lot']['step_lot'], $_SESSION['user']['user_id'], $_POST['lot']['category_id']]);
+      $res = mysqli_stmt_execute($stmt);
 
-                if ($res) {
-		            $lot_id = mysqli_insert_id($link);
-		            header("Location: lot.php?lot_id=" . $lot_id);
-		            print $lot_id;
-		        	}
-			    else {
-			         $content = include_template('error.php', ['error' => mysqli_error($link)]);
-			        }
-            } 
-            else
-            {
-            	 $error['image_type'] = 'Загрузите картинку в формате нужном формате: jpg, jpeg, png';
-            }
+      if ($res) {
+          $lot_id = mysqli_insert_id($link);
+          header("Location: lot.php?lot_id=" . $lot_id);
+          print $lot_id;
+      }
+      else {
+        $content = include_template('error.php', ['error' => mysqli_error($link)]);
+    }
+} 
+else
+{
+  $error['image_type'] = 'Загрузите картинку в формате нужном формате: jpg, jpeg, png';
+}
 
-        }
+}
 
-        if (count($error)){
-            $page_content = include_template('lot_add_tpl.php', ['add_lot' => $add_lot, 'error' => $error, 'dict' => $dict, 'lots' => $lots, 'category' => $category]);
-            $layout_content = include_template('layout_pages.php', [
+if (count($error)){
+    $page_content = include_template('lot_add_tpl.php', ['add_lot' => $add_lot, 'error' => $error, 'dict' => $dict, 'lots' => $lots, 'category' => $category]);
+    $layout_content = include_template('layout_pages.php', [
+        'page_content' => $page_content,
+        'category' => $category,
+        'title' => 'YetiCave. Ошибки в форме.'
+    ]);
+    print($layout_content);
+}            
+else{
+    $page_content = include_template('lot_tpl.php', ['lots' => $lots, 'bets' => $bets, 'category' => $category]); 
+    $layout_content = include_template('layout_pages.php', [
+       'page_content' => $page_content,
+       'category' => $category,
+       'title' => $lot['name']
+   ]);
+    print($layout_content);
+}
+}
+else {
+    if(!isset($_SESSION['user']))
+    {
+        header('HTTP/1.0 403 Forbidden');
+        echo 'You are forbidden!';
+        exit();
+    }
+    else
+    {
+        $page_content = include_template('lot_add_tpl.php', ['lots' => $lots, 'category' => $category]); 
+        $layout_content = include_template('layout_pages.php', [
             'page_content' => $page_content,
             'category' => $category,
-            'title' => 'YetiCave. Ошибки в форме.'
-            ]);
-            print($layout_content);
-        }            
-        else{
-            $page_content = include_template('lot_tpl.php', ['lots' => $lots, 'bets' => $bets, 'category' => $category]); 
-	        $layout_content = include_template('layout_pages.php', [
-	            'page_content' => $page_content,
-	            'category' => $category,
-	            'title' => $lot['name']
-	        ]);
-	        print($layout_content);
-	        }
-        }
-        else {
-            if(!isset($_SESSION['user']))
-            {
-                header('HTTP/1.0 403 Forbidden');
-                echo 'You are forbidden!';
-                exit();
-            }
-            else
-            {
-                $page_content = include_template('lot_add_tpl.php', ['lots' => $lots, 'category' => $category]); 
-                $layout_content = include_template('layout_pages.php', [
-                'page_content' => $page_content,
-                'category' => $category,
-                'title' => 'YetiCave. Форма добавления лота'
-                ]);
-                print($layout_content);
-            }
-        }
+            'title' => 'YetiCave. Форма добавления лота'
+        ]);
+        print($layout_content);
     }
+}
+}
