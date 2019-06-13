@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title><?if(isset($title)) print($title);?></title>
+    <title><?php if(isset($title)) print($title);?></title>
     <link href="../css/normalize.min.css" rel="stylesheet">
     <link href="../css/style.css" rel="stylesheet">
 </head>
@@ -21,13 +21,13 @@
         <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
 
         <nav class="user-menu">
-        <?if(isset($_SESSION['user'])): ?>
+        <?php if(isset($_SESSION['user'])): ?>
             <div class="user-menu__logged">
-                <p><?if(Isset($_SESSION['user']['name'])) print($_SESSION['user']['name']);?></p>
+                <p><?php if(Isset($_SESSION['user']['name'])) print($_SESSION['user']['name']);?></p>
                 <a class="user-menu__bets" href="my_bets.php">Мои ставки</a>
                 <a class="user-menu__logout" href="logout.php">Выход</a>
             </div>
-        <?else:?>
+        <?php else:?>
             <ul class="user-menu__list">
                <li class="user-menu__item">
                   <a href="signup.php">Регистрация</a>
@@ -36,11 +36,11 @@
                  <a href="login.php">Вход</a>
                </li>
             </ul>
-        <?endif;?>
+        <?php endif;?>
         </nav>
     </div>
 </header>
-<?if(isset($page_content)) print($page_content);?>
+<?php if(isset($page_content)) print($page_content);?>
 </div>
 
 <footer class="main-footer">
@@ -48,7 +48,7 @@
         <ul class="nav__list container">
             <?php foreach ($category as $menu_bottom):?>                
                 <li class='nav__item'><a href="category.php?cat_id=<?=$menu_bottom['category_id'];?>"><?if(isset($menu_bottom['name'])) print $menu_bottom['name'];?></a></li>            
-            <?endforeach;?>
+            <?php endforeach;?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
